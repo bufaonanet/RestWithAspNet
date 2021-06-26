@@ -39,11 +39,9 @@ namespace RestWithAspNet
 
             services.AddApiVersioning(options => { options.ReportApiVersions = true; });
 
-            services.AddControllers();            
+            services.AddControllers();              
             
             services.AddScoped<IPersonBusiness, PersonBusiness>();
-            //services.AddScoped<IPersonRepository, PersonRepository>();
-            
             services.AddScoped<IBookBusiness, BookBusiness>();
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 

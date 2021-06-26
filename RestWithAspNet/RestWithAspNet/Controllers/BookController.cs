@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using RestWithAspNet.Model;
 using RestWithAspNet.Business;
+using RestWithAspNet.Data.DTO;
 
 namespace RestWithAspNet.Controllers
 {
@@ -33,19 +33,19 @@ namespace RestWithAspNet.Controllers
         }
 
         [HttpPost()]
-        public IActionResult Post(Book book)
+        public IActionResult Post(BookDTO bookDTO)
         {
-            if (book == null) return BadRequest();
+            if (bookDTO == null) return BadRequest();
 
-            return Ok(_bookService.Create(book));
+            return Ok(_bookService.Create(bookDTO));
         }
 
         [HttpPut()]
-        public IActionResult Put(Book book)
+        public IActionResult Put(BookDTO bookDTO)
         {
-            if (book == null) return BadRequest();
+            if (bookDTO == null) return BadRequest();
 
-            return Ok(_bookService.Update(book));
+            return Ok(_bookService.Update(bookDTO));
         }
 
         [HttpDelete("{id}")]

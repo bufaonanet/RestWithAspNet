@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Logging;
 using RestWithAspNet.Model;
 using RestWithAspNet.Business;
+using RestWithAspNet.Data.DTO;
 
 namespace RestWithAspNet.Controllers
 {
@@ -34,7 +35,7 @@ namespace RestWithAspNet.Controllers
         }
 
         [HttpPost()]
-        public IActionResult Post(Person person)
+        public IActionResult Post(PersonDTO person)
         {
             if (person == null) return BadRequest();
 
@@ -42,7 +43,7 @@ namespace RestWithAspNet.Controllers
         }
 
         [HttpPut()]
-        public IActionResult Put(Person person)
+        public IActionResult Put(PersonDTO person)
         {
             if (person == null) return BadRequest();
 

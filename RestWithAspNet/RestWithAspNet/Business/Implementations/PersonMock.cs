@@ -1,9 +1,6 @@
-﻿using RestWithAspNet.Model;
-using System;
+﻿using RestWithAspNet.Data.DTO;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace RestWithAspNet.Business.Implementations
 {
@@ -11,7 +8,7 @@ namespace RestWithAspNet.Business.Implementations
     {
         private volatile int count;
 
-        public Person Create(Person person)
+        public PersonDTO Create(PersonDTO person)
         {
             return person;
         }
@@ -21,22 +18,22 @@ namespace RestWithAspNet.Business.Implementations
 
         }
 
-        public List<Person> FindAll()
+        public List<PersonDTO> FindAll()
         {
-            List<Person> people = new List<Person>();
+            List<PersonDTO> people = new List<PersonDTO>();
 
             for (int i = 0; i < 8; i++)
             {
-                Person person = MockPerson(count);
+                PersonDTO person = MockPerson(count);
                 people.Add(person);
             }
 
             return people;
         }
 
-        public Person FindByID(long id)
+        public PersonDTO FindByID(long id)
         {
-            return new Person
+            return new PersonDTO
             {
                 Id = InrementeAndGet(),
                 FirstName = "Douglas",
@@ -46,14 +43,14 @@ namespace RestWithAspNet.Business.Implementations
             };
         }
 
-        public Person Update(Person person)
+        public PersonDTO Update(PersonDTO person)
         {
             return person;
         }
 
-        private Person MockPerson(int i)
+        private PersonDTO MockPerson(int i)
         {
-            return new Person
+            return new PersonDTO
             {
                 Id = InrementeAndGet(),
                 FirstName = "Person Name" + i,

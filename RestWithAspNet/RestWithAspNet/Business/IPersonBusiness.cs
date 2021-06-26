@@ -1,14 +1,14 @@
-﻿using RestWithAspNet.Model;
+﻿using RestWithAspNet.Data.DTO;
 using System.Collections.Generic;
 
 namespace RestWithAspNet.Business
 {
     public interface IPersonBusiness 
     {
-        Person Create(Person person);
-        Person FindByID(long id);
-        List<Person> FindAll();
-        Person Update(Person person);
+        PersonDTO Create(PersonDTO person);
+        PersonDTO FindByID(long id);
+        List<PersonDTO> FindAll();
+        PersonDTO Update(PersonDTO person);
         void Delete(long id);
     }
 }
