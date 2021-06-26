@@ -1,34 +1,32 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using RestWithAspNet.Model;
-using RestWithAspNet.Services;
+using RestWithAspNet.Business;
 
 namespace RestWithAspNet.Controllers
 {
-    [ApiVersion("1.0")]
     [ApiController]
+    [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/[controller]")]
     public class PersonController : ControllerBase
-    {
-        private readonly ILogger<PersonController> _logger;
-        private readonly IPersonService _personService;
+    {        
+        private readonly IPersonBusiness _personBusiness;
 
-        public PersonController(ILogger<PersonController> logger, IPersonService personService)
-        {
-            _logger = logger;
-            _personService = personService;
+        public PersonController( IPersonBusiness personBusiness)
+        {            
+            _personBusiness = personBusiness;
         }
 
         [HttpGet()]
         public IActionResult Get()
         {
-            return Ok(_personService.FindAll());
+            return Ok(_personBusiness.FindAll());
         }
 
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            var person = _personService.FindById(id);
+            var person = _personBusiness.FindByID(id);
 
             if (person == null) return NotFound();
 
@@ -40,7 +38,7 @@ namespace RestWithAspNet.Controllers
         {
             if (person == null) return BadRequest();
 
-            return Ok(_personService.Create(person));
+            return Ok(_personBusiness.Create(person));
         }
 
         [HttpPut()]
@@ -48,13 +46,13 @@ namespace RestWithAspNet.Controllers
         {
             if (person == null) return BadRequest();
 
-            return Ok(_personService.Update(person));
+            return Ok(_personBusiness.Update(person));
         }
 
         [HttpDelete("{id}")]
         public IActionResult Delete(long id)
         {
-            _personService.Delete(id);
+            _personBusiness.Delete(id);
             return NoContent();
         }
 

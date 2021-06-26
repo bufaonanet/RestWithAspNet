@@ -5,9 +5,9 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace RestWithAspNet.Services.Implementations
+namespace RestWithAspNet.Business.Implementations
 {
-    public class PersonServiceMock : IPersonService
+    public class PersonMock : IPersonBusiness
     {
         private volatile int count;
 
@@ -34,7 +34,7 @@ namespace RestWithAspNet.Services.Implementations
             return people;
         }
 
-        public Person FindById(long id)
+        public Person FindByID(long id)
         {
             return new Person
             {

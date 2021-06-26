@@ -4,13 +4,23 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace RestWithAspNet.Services.Implementations
+namespace RestWithAspNet.Repository
 {
-    public class PersonService : IPersonService
+    public interface IPersonRepository : IDisposable
+    {
+        Person Create(Person person);
+        Person FindById(long id);
+        List<Person> FindAll();
+        Person Update(Person person);
+        void Delete(long id);
+        bool Exists(long id);
+    }
+
+    public class PersonRepository : IPersonRepository
     {
         private readonly MyDbContext _context;
 
-        public PersonService(MyDbContext context)
+        public PersonRepository(MyDbContext context)
         {
             _context = context;
         }
@@ -29,7 +39,6 @@ namespace RestWithAspNet.Services.Implementations
         {
             try
             {
-
                 _context.Add(person);
                 _context.SaveChanges();
 
@@ -63,7 +72,7 @@ namespace RestWithAspNet.Services.Implementations
 
         public Person Update(Person person)
         {
-            if (!Exists(person.Id)) return new Person();
+            if (!Exists(person.Id)) return null;
 
             var result = FindById(person.Id);
 
@@ -83,9 +92,14 @@ namespace RestWithAspNet.Services.Implementations
             return person;
         }
 
-        private bool Exists(long id)
+        public bool Exists(long id)
         {
             return _context.People.Any(p => p.Id == id);
+        }
+
+        public void Dispose()
+        {
+            _context.Dispose();
         }
     }
 }
