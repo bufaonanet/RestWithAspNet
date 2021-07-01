@@ -17,5 +17,10 @@ namespace RestWithAspNet.Model
 
         [Column("gender")]
         public string Gender { get; set; }
+
+        [Column("enabled")]
+        public bool Enabled { get; set; }
+
+
     }
 }

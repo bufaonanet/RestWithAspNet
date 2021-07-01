@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RestWithAspNet.Business;
 using RestWithAspNet.Data.DTO;
+using System.Collections.Generic;
 
 namespace RestWithAspNet.Controllers
 {
@@ -17,12 +18,20 @@ namespace RestWithAspNet.Controllers
         }
 
         [HttpGet()]
+        [ProducesResponseType((200), Type = typeof(List<BookDTO>))]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
         public IActionResult Get()
         {
             return Ok(_bookService.FindAll());
         }
 
         [HttpGet("{id}")]
+        [ProducesResponseType((200), Type = typeof(BookDTO))]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
         public IActionResult Get(int id)
         {
             var person = _bookService.FindById(id);
@@ -33,6 +42,9 @@ namespace RestWithAspNet.Controllers
         }
 
         [HttpPost()]
+        [ProducesResponseType((200), Type = typeof(BookDTO))]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(401)]
         public IActionResult Post(BookDTO bookDTO)
         {
             if (bookDTO == null) return BadRequest();
@@ -41,6 +53,9 @@ namespace RestWithAspNet.Controllers
         }
 
         [HttpPut()]
+        [ProducesResponseType((200), Type = typeof(BookDTO))]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(401)]
         public IActionResult Put(BookDTO bookDTO)
         {
             if (bookDTO == null) return BadRequest();
@@ -49,6 +64,9 @@ namespace RestWithAspNet.Controllers
         }
 
         [HttpDelete("{id}")]
+        [ProducesResponseType((200), Type = typeof(BookDTO))]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(401)]
         public IActionResult Delete(long id)
         {
             _bookService.Delete(id);

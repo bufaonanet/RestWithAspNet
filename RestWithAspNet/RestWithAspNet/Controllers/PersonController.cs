@@ -1,30 +1,41 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using RestWithAspNet.Model;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using RestWithAspNet.Business;
 using RestWithAspNet.Data.DTO;
+using System.Collections.Generic;
 
 namespace RestWithAspNet.Controllers
 {
-    [ApiController]
     [ApiVersion("1.0")]
+    [ApiController]
+    [Authorize("Bearer")]
     [Route("api/v{version:apiVersion}/[controller]")]
     public class PersonController : ControllerBase
-    {        
+    {
         private readonly IPersonBusiness _personBusiness;
 
-        public PersonController( IPersonBusiness personBusiness)
-        {            
+        public PersonController(IPersonBusiness personBusiness)
+        {
             _personBusiness = personBusiness;
         }
 
         [HttpGet()]
+        [ProducesResponseType((200), Type = typeof(List<PersonDTO>))]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
+        //[TypeFilter(typeof(HyperMediaFilter))]
         public IActionResult Get()
         {
             return Ok(_personBusiness.FindAll());
         }
 
         [HttpGet("{id}")]
+        [ProducesResponseType((200), Type = typeof(PersonDTO))]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
+        //[TypeFilter(typeof(HyperMediaFilter))]
         public IActionResult Get(int id)
         {
             var person = _personBusiness.FindByID(id);
@@ -35,6 +46,10 @@ namespace RestWithAspNet.Controllers
         }
 
         [HttpPost()]
+        [ProducesResponseType((200), Type = typeof(PersonDTO))]       
+        [ProducesResponseType(400)]
+        [ProducesResponseType(401)]
+        //[TypeFilter(typeof(HyperMediaFilter))]
         public IActionResult Post(PersonDTO person)
         {
             if (person == null) return BadRequest();
@@ -43,6 +58,10 @@ namespace RestWithAspNet.Controllers
         }
 
         [HttpPut()]
+        [ProducesResponseType((200), Type = typeof(PersonDTO))]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(401)]
+        //[TypeFilter(typeof(HyperMediaFilter))]
         public IActionResult Put(PersonDTO person)
         {
             if (person == null) return BadRequest();
@@ -51,6 +70,9 @@ namespace RestWithAspNet.Controllers
         }
 
         [HttpDelete("{id}")]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(401)]
         public IActionResult Delete(long id)
         {
             _personBusiness.Delete(id);
