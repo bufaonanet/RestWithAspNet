@@ -30,6 +30,17 @@ namespace RestWithAspNet.Controllers
             return Ok(_personBusiness.FindAll());
         }
 
+        [HttpGet("{sortDirection}/{pageSize}/{page}")]
+        [ProducesResponseType((200), Type = typeof(List<PersonDTO>))]       
+        [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
+        //[TypeFilter(typeof(HyperMediaFilter))]
+        public IActionResult Get(
+            [FromQuery] string name, string sortDirection, int pageSize, int page)
+        {
+            return Ok(_personBusiness.FindWithPagedSearch(name, sortDirection, pageSize, page));
+        }
+
         [HttpGet("{id}")]
         [ProducesResponseType((200), Type = typeof(PersonDTO))]
         [ProducesResponseType(204)]
@@ -45,8 +56,20 @@ namespace RestWithAspNet.Controllers
             return Ok(person);
         }
 
+        [HttpGet("findpersonbyname")]
+        [ProducesResponseType((200), Type = typeof(PersonDTO))]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
+        public IActionResult FindPersonByName([FromQuery] string firstName, [FromQuery] string lastName)
+        {
+            var person = _personBusiness.FindPersonByName(firstName, lastName);
+            if (person == null) return NotFound();
+            return Ok(person);
+        }
+
         [HttpPost()]
-        [ProducesResponseType((200), Type = typeof(PersonDTO))]       
+        [ProducesResponseType((200), Type = typeof(PersonDTO))]
         [ProducesResponseType(400)]
         [ProducesResponseType(401)]
         //[TypeFilter(typeof(HyperMediaFilter))]
@@ -67,6 +90,16 @@ namespace RestWithAspNet.Controllers
             if (person == null) return BadRequest();
 
             return Ok(_personBusiness.Update(person));
+        }
+
+        [HttpPatch("{id}")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(401)]
+        public IActionResult Patch(long id)
+        {
+            var person = _personBusiness.Disabled(id);
+            return Ok(person);
         }
 
         [HttpDelete("{id}")]

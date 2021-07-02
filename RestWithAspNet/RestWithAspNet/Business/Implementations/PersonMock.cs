@@ -64,5 +64,22 @@ namespace RestWithAspNet.Business.Implementations
         {
             return Interlocked.Increment(ref count);
         }
+
+        public PersonDTO Disabled(long id)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public List<PersonDTO> FindPersonByName(string firstName, string lastName)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public PagedSearchDTO<PersonDTO> FindWithPagedSearch(string name, string sortDirection, int pageSize, int page)
+        {
+            throw new System.NotImplementedException();
+        }
+
+       
     }
 }
